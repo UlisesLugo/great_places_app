@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:great_places_app/providers/places.dart';
 import 'package:great_places_app/widgets/image_input.dart';
+import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -19,9 +21,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   void _savePlace() {
     if (_titleController.text.isEmpty || _pickedImage == null) {
+      print('Missing titlo or image');
       return;
     }
-    
+    Provider.of<Places>(context, listen: false)
+        .addPlace(_titleController.text, _pickedImage!);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -63,7 +68,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               primary: Theme.of(context).colorScheme.secondary,
               onPrimary: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: _savePlace,
           ),
         ],
       ),
