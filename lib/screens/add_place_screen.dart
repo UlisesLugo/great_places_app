@@ -19,12 +19,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     _pickedImage = image;
   }
 
-  void _savePlace() {
+  void _savePlace() async {
     if (_titleController.text.isEmpty || _pickedImage == null) {
       print('Missing titlo or image');
       return;
     }
-    Provider.of<Places>(context, listen: false)
+    await Provider.of<Places>(context, listen: false)
         .addPlace(_titleController.text, _pickedImage!);
     Navigator.of(context).pop();
   }

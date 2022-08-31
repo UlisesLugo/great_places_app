@@ -19,25 +19,35 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<Places>(
-        builder: (ctx, places, ch) {
-          return places.items.length == 0
-              ? ch!
-              : ListView.builder(
-                  itemCount: places.items.length,
-                  itemBuilder: (ctx2, i) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: FileImage(places.items[i].image),
-                      ),
-                      title: Text(places.items[i].title),
+      body: FutureBuilder(
+        future: Provider.of<Places>(context, listen: false).fetchPlaces(),
+        builder: (contextFuture, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Consumer<Places>(
+            builder: (ctx, places, ch) {
+              return places.items.length == 0
+                  ? ch!
+                  : ListView.builder(
+                      itemCount: places.items.length,
+                      itemBuilder: (ctx2, i) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: FileImage(places.items[i].image),
+                          ),
+                          title: Text(places.items[i].title),
+                        );
+                      },
                     );
-                  },
-                );
+            },
+            child: Center(
+              child: const Text('There aren\'t added places'),
+            ),
+          );
         },
-        child: Center(
-          child: const Text('There aren\'t added places'),
-        ),
       ),
     );
   }
