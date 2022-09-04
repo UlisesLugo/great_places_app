@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:great_places_app/providers/places.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +36,10 @@ class PlacesListScreen extends StatelessWidget {
                   : ListView.builder(
                       itemCount: places.items.length,
                       itemBuilder: (ctx2, i) {
+                        FileImage image = FileImage(places.items[i].image);
                         return ListTile(
                           leading: CircleAvatar(
-                            backgroundImage: FileImage(places.items[i].image),
+                            backgroundImage: image,
                           ),
                           title: Text(places.items[i].title),
                         );

@@ -24,6 +24,7 @@ class Places with ChangeNotifier {
             ))
         .toList();
     notifyListeners();
+
     return Future.value();
   }
 
